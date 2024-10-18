@@ -112,6 +112,19 @@ import {
         .to.changeEtherBalance(owner, hre.ethers.parseUnits("100000", "wei"));
     })
 
+    it("Should be NOT remove a book", async () => {
+        const { bookCrud, owner, otherAccount } = await loadFixture(deployFixture);
+        await bookCrud.addBook({
+            title: "O Senhor dos Anéis: A Sociedade do Anel",
+            year: 2001
+        },
+        {
+            value: hre.ethers.parseUnits("100000", "wei")
+        });
 
+        const instance = bookCrud.connect(otherAccount);
+
+        await expect(instance.deleteBook(1)).to.revertedWith("You don't have permission");
+    })
 
   });

@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "test": "npx hardhat test"
+    "start": "npx hardhat node",
+    "test": "npx hardhat test",
+    "deploy": "npx hardhat ignition deploy ignition/modules/BookCrud.ts --network local"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
