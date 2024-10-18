@@ -94,5 +94,24 @@ import {
         await expect(bookCrud.transferFrom()).to.be.revertedWithCustomError(bookCrud, "NoFoundsToWithdraw");
     })
 
+    it("Should be withdraw if has balance", async () => {
+        const { bookCrud, owner, otherAccount } = await loadFixture(deployFixture);
+
+        await bookCrud.addBook({
+            title: "O Senhor dos Anéis: A Sociedade do Anel",
+            year: 2001
+        },
+        {
+            value: hre.ethers.parseUnits("100000", "wei")
+        });
+
+        const initialBalance = await bookCrud.balanceOf();
+        expect(initialBalance).to.be.gt(0);
+
+        await expect(bookCrud.transferFrom())
+        .to.changeEtherBalance(owner, hre.ethers.parseUnits("100000", "wei"));
+    })
+
+
 
   });
