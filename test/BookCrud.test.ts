@@ -71,4 +71,18 @@ import {
         expect(count).to.equal(0);
     })
 
+    it("Should transfer tokens to owner", async () => {
+        const { bookCrud, owner, otherAccount } = await loadFixture(deployFixture);
+        await bookCrud.addBook({
+            title: "O Senhor dos Anéis: A Sociedade do Anel",
+            year: 2001
+        },
+        {
+            value: hre.ethers.parseUnits("100000", "wei")
+        });
+
+        await expect(bookCrud.transferFrom())
+        .to.changeEtherBalance(owner, hre.ethers.parseUnits("100000", "wei"));
+    })
+
   });
