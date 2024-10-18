@@ -36,4 +36,24 @@ import {
         expect(count).to.equal(1);
     })
 
+    it("Should edit a book", async () => {
+        const { bookCrud, owner, otherAccount } = await loadFixture(deployFixture);
+        await bookCrud.addBook({
+            title: "O Senhor dos Anéis: A Sociedade do Anel",
+            year: 2001
+        },
+        {
+            value: hre.ethers.parseUnits("100000", "wei")
+        });
+
+        await bookCrud.updateBook(1, {
+            title: "O Senhor dos Anéis: As Duas Torres",
+            year: 2004
+        });
+
+        const book = await bookCrud.books(1);
+        expect(book.title).to.equal("O Senhor dos Anéis: As Duas Torres");
+
+    })
+
   });
