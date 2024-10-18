@@ -85,4 +85,14 @@ import {
         .to.changeEtherBalance(owner, hre.ethers.parseUnits("100000", "wei"));
     })
 
+    it("Should be fail if no balance to withdraw", async () => {
+        const { bookCrud, owner, otherAccount } = await loadFixture(deployFixture);
+
+        const initialBalance = await bookCrud.balanceOf();
+        expect(initialBalance).to.equal(0);
+
+        await expect(bookCrud.transferFrom()).to.be.revertedWithCustomError(bookCrud, "NoFoundsToWithdraw");
+    })
+
+
   });
